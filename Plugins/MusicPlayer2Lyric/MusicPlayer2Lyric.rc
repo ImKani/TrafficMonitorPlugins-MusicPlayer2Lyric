@@ -139,11 +139,11 @@ BEGIN
     BEGIN
         BLOCK "080404b0"
         BEGIN
-            VALUE "CompanyName", "<TODO: Company name>"
+            VALUE "CompanyName", "ImKani"
             VALUE "FileDescription", "MusicPlayer2 Lyric Plugin for TrafficMonitor"
             VALUE "FileVersion", "1.0.0.0"
             VALUE "InternalName", "MusicPlayer2Lyric.dll"
-            VALUE "LegalCopyright", "MIT License"
+            VALUE "LegalCopyright", "Copyright (C) 2026 by ImKani"
             VALUE "OriginalFilename", "MusicPlayer2Lyric.dll"
             VALUE "ProductName", "MusicPlayer2Lyric Plugin for TrafficMonitor"
             VALUE "ProductVersion", "1.0.0.0"

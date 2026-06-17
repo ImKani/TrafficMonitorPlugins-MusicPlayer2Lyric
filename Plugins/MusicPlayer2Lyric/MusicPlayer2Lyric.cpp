@@ -184,9 +184,9 @@ const wchar_t* CMusicPlayer2Lyric::GetInfo(PluginInfoIndex index)
     case TMI_AUTHOR:
         return L"Kani";
     case TMI_COPYRIGHT:
-        return L"MIT License";
+        return L"Copyright (C) 2026 by ImKani";
     case ITMPlugin::TMI_URL:
-        return L"";
+        return L"https://github.com/ImKani/TrafficMonitorPlugins-MusicPlayer2Lyric";
     case TMI_VERSION:
         return L"1.00";
     default:

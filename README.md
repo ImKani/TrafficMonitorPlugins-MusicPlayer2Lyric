@@ -20,6 +20,12 @@ https://github.com/ImKani/MusicPlayer2TaskbarLyric
 https://github.com/zhongyang219/TrafficMonitorPlugins
 ```
 
+## Repository Links
+
+- MusicPlayer2 taskbar lyric fork: `https://github.com/ImKani/MusicPlayer2-TaskbarLyric`
+- TrafficMonitor plugin fork: `https://github.com/ImKani/TrafficMonitorPlugins-MusicPlayer2Lyric`
+- Integration and release package: `https://github.com/ImKani/MusicPlayer2TaskbarLyric`
+
 ## 这个 fork 改了什么
 
 - 新增 TrafficMonitor 插件工程：
@@ -143,6 +149,8 @@ bin\x64\Release\MusicPlayer2Lyric.dll
 ```
 
 ## 许可证
+
+Copyright (C) 2026 by ImKani.
 
 本仓库基于 `zhongyang219/TrafficMonitorPlugins`，遵循上游 MIT License。
 

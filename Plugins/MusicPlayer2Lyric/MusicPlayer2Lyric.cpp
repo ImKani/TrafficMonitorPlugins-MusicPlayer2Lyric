@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "MusicPlayer2Lyric.h"
 #include "DataManager.h"
+#include "OptionsDlg.h"
 
 CMusicPlayer2Lyric CMusicPlayer2Lyric::m_instance;
 
@@ -142,6 +143,21 @@ void CMusicPlayer2Lyric::DataRequired()
             m_tooltip_info += state.next_translate;
         }
     }
+}
+
+ITMPlugin::OptionReturn CMusicPlayer2Lyric::ShowOptionsDialog(void* hParent)
+{
+    AFX_MANAGE_STATE(AfxGetStaticModuleState());
+    CWnd* pParent = CWnd::FromHandle((HWND)hParent);
+    COptionsDlg dlg(pParent);
+    dlg.m_data = g_data.m_setting_data;
+    if (dlg.DoModal() == IDOK)
+    {
+        g_data.m_setting_data = dlg.m_data;
+        g_data.SaveConfig();
+        return ITMPlugin::OR_OPTION_CHANGED;
+    }
+    return ITMPlugin::OR_OPTION_UNCHANGED;
 }
 
 const wchar_t* CMusicPlayer2Lyric::GetInfo(PluginInfoIndex index)

@@ -114,14 +114,19 @@ void CMusicPlayer2LyricItem::DrawItem(void* hDC, int x, int y, int w, int h, boo
     const COLORREF old_text_color = pDC->GetTextColor();
     const COLORREF text_color = old_text_color;
     const UINT text_flags = DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX;
-    CFont small_font;
-    CFont* old_font = nullptr;
+    CFont primary_font;
+    CFont supplement_font;
     LOGFONT log_font{};
     CFont* current_font = pDC->GetCurrentFont();
     if (current_font != nullptr && current_font->GetLogFont(&log_font))
     {
-        log_font.lfHeight = log_font.lfHeight * g_data.m_setting_data.supplement_font_percent / 100;
-        small_font.CreateFontIndirect(&log_font);
+        LOGFONT primary_log_font{ log_font };
+        primary_log_font.lfHeight = primary_log_font.lfHeight * g_data.m_setting_data.primary_font_percent / 100;
+        primary_font.CreateFontIndirect(&primary_log_font);
+
+        LOGFONT supplement_log_font{ log_font };
+        supplement_log_font.lfHeight = supplement_log_font.lfHeight * g_data.m_setting_data.supplement_font_percent / 100;
+        supplement_font.CreateFontIndirect(&supplement_log_font);
     }
 
     const bool draw_three_lines{ g_data.m_setting_data.max_display_lines >= 3
@@ -139,11 +144,20 @@ void CMusicPlayer2LyricItem::DrawItem(void* hDC, int x, int y, int w, int h, boo
         CRect third_rect{ rect };
         third_rect.top = second_rect.bottom;
 
+        CFont* old_font = nullptr;
         pDC->SetTextColor(text_color);
+        if (primary_font.GetSafeHandle() != nullptr)
+            old_font = pDC->SelectObject(&primary_font);
         pDC->DrawText(lyric.c_str(), lyric_rect, text_flags | DT_BOTTOM);
+        if (old_font != nullptr)
+        {
+            pDC->SelectObject(old_font);
+            old_font = nullptr;
+        }
+
         pDC->SetTextColor(SecondaryColor(text_color, dark_mode));
-        if (small_font.GetSafeHandle() != nullptr)
-            old_font = pDC->SelectObject(&small_font);
+        if (supplement_font.GetSafeHandle() != nullptr)
+            old_font = pDC->SelectObject(&supplement_font);
         pDC->DrawText(supplement_lines[0].c_str(), second_rect, text_flags | DT_VCENTER);
         pDC->DrawText(supplement_lines[1].c_str(), third_rect, text_flags | DT_TOP);
         if (old_font != nullptr)
@@ -165,7 +179,12 @@ void CMusicPlayer2LyricItem::DrawItem(void* hDC, int x, int y, int w, int h, boo
         pDC->SetTextColor(text_color);
         pDC->DrawText(lyric.c_str(), lyric_rect, text_flags | DT_BOTTOM);
         pDC->SetTextColor(SecondaryColor(text_color, dark_mode));
+        CFont* old_font = nullptr;
+        if (supplement_font.GetSafeHandle() != nullptr)
+            old_font = pDC->SelectObject(&supplement_font);
         pDC->DrawText(translate.c_str(), translate_rect, text_flags | DT_TOP);
+        if (old_font != nullptr)
+            pDC->SelectObject(old_font);
     }
     else
     {

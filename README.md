@@ -73,6 +73,7 @@ TrafficMonitorPlugins.sln
 [config]
 max_display_lines=3
 force_three_lines=0
+primary_font_percent=90
 supplement_font_percent=80
 min_item_width=120
 max_item_width=360
@@ -87,6 +88,8 @@ max_item_width=360
   - `0`：根据任务栏高度自动降级为 2 行或 1 行。
   - `1`：只要当前歌词有两条补充行，就强制三行显示。
   - 如果任务栏高度太小，文字会更挤，依靠省略号截断。
+- `primary_font_percent`
+  - 三行显示时第 1 行字号比例，范围 `50` 到 `100`。
 - `supplement_font_percent`
   - 第 2/3 行字号比例，范围 `50` 到 `100`。
 - `min_item_width`
@@ -100,12 +103,13 @@ max_item_width=360
 [config]
 max_display_lines=3
 force_three_lines=1
+primary_font_percent=90
 supplement_font_percent=70
 min_item_width=160
 max_item_width=420
 ```
 
-修改 ini 后，重启或重载 TrafficMonitor 生效。
+也可以在 TrafficMonitor 的“插件管理”中选中 `MusicPlayer2 歌词` 后点击“选项”修改这些设置。手动修改 ini 后，重启或重载 TrafficMonitor 生效。
 
 ## 构建
 
@@ -133,4 +137,3 @@ bin\x64\Release\MusicPlayer2Lyric.dll
 本仓库基于 `zhongyang219/TrafficMonitorPlugins`，遵循上游 MIT License。
 
 注意：这个插件需要配合修改版 MusicPlayer2 使用。MusicPlayer2 上游项目使用 GPLv3，因此如果分发包含修改版 MusicPlayer2 的二进制包，应同时提供对应源码。
-

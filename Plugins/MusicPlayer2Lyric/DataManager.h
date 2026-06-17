@@ -10,6 +10,7 @@ struct SettingData
 {
     int max_display_lines{ 3 };
     bool force_three_lines{ false };
+    int primary_font_percent{ 90 };
     int supplement_font_percent{ 80 };
     int min_item_width{ 120 };
     int max_item_width{ 360 };

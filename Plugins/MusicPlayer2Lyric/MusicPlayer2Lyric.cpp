@@ -59,8 +59,12 @@ void CMusicPlayer2Lyric::DataRequired()
     {
         m_last_sequence = 0;
         m_display_text.clear();
+        m_title.clear();
+        m_artist.clear();
         m_current_lyric.clear();
         m_current_translate.clear();
+        m_next_lyric.clear();
+        m_next_translate.clear();
         m_current_parallel_lines.clear();
         m_next_parallel_lines.clear();
         m_tooltip_info = L"MusicPlayer2 is not running.";
@@ -74,8 +78,12 @@ void CMusicPlayer2Lyric::DataRequired()
     if (!state.running)
     {
         m_display_text.clear();
+        m_title.clear();
+        m_artist.clear();
         m_current_lyric.clear();
         m_current_translate.clear();
+        m_next_lyric.clear();
+        m_next_translate.clear();
         m_current_parallel_lines.clear();
         m_next_parallel_lines.clear();
         m_tooltip_info = L"MusicPlayer2 is not running.";
@@ -86,6 +94,11 @@ void CMusicPlayer2Lyric::DataRequired()
         state.current_parallel_1, state.current_parallel_2, state.current_parallel_3);
     ReadParallelLines(m_next_parallel_lines, state.next_parallel_count,
         state.next_parallel_1, state.next_parallel_2, state.next_parallel_3);
+
+    m_title = state.title;
+    m_artist = state.artist;
+    m_next_lyric = state.next_lyric;
+    m_next_translate = state.next_translate;
 
     if (state.has_lyric && state.current_lyric[0] != L'\0')
     {

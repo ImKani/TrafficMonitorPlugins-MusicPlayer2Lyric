@@ -27,6 +27,8 @@ BOOL COptionsDlg::OnInitDialog()
 
     SetDlgItemInt(IDC_MAX_DISPLAY_LINES_EDIT, m_data.max_display_lines);
     CheckDlgButton(IDC_FORCE_THREE_LINES_CHECK, m_data.force_three_lines);
+    CheckDlgButton(IDC_SHOW_SONG_INFO_CHECK, m_data.show_song_info);
+    CheckDlgButton(IDC_SHOW_CURRENT_NEXT_CHECK, m_data.show_current_next);
     SetDlgItemInt(IDC_PRIMARY_FONT_PERCENT_EDIT, m_data.primary_font_percent);
     SetDlgItemInt(IDC_SUPPLEMENT_FONT_PERCENT_EDIT, m_data.supplement_font_percent);
     SetDlgItemInt(IDC_MIN_ITEM_WIDTH_EDIT, m_data.min_item_width);
@@ -39,6 +41,8 @@ void COptionsDlg::OnOK()
 {
     m_data.max_display_lines = GetDlgInt(IDC_MAX_DISPLAY_LINES_EDIT, m_data.max_display_lines, 1, 3);
     m_data.force_three_lines = (IsDlgButtonChecked(IDC_FORCE_THREE_LINES_CHECK) != 0);
+    m_data.show_song_info = (IsDlgButtonChecked(IDC_SHOW_SONG_INFO_CHECK) != 0);
+    m_data.show_current_next = (IsDlgButtonChecked(IDC_SHOW_CURRENT_NEXT_CHECK) != 0);
     m_data.primary_font_percent = GetDlgInt(IDC_PRIMARY_FONT_PERCENT_EDIT, m_data.primary_font_percent, 50, 100);
     m_data.supplement_font_percent = GetDlgInt(IDC_SUPPLEMENT_FONT_PERCENT_EDIT, m_data.supplement_font_percent, 50, 100);
     m_data.min_item_width = GetDlgInt(IDC_MIN_ITEM_WIDTH_EDIT, m_data.min_item_width, 40, 1000);

@@ -44,6 +44,15 @@ namespace
         return SplitSupplementText(plugin.GetCurrentTranslate());
     }
 
+    std::wstring JoinTitleArtist(const std::wstring& title, const std::wstring& artist)
+    {
+        if (title.empty())
+            return artist;
+        if (artist.empty())
+            return title;
+        return title + L" - " + artist;
+    }
+
     COLORREF SecondaryColor(COLORREF color, bool dark_mode)
     {
         const BYTE r = GetRValue(color);
@@ -51,6 +60,12 @@ namespace
         const BYTE b = GetBValue(color);
         const BYTE target = dark_mode ? 170 : 95;
         return RGB((r + target) / 2, (g + target) / 2, (b + target) / 2);
+    }
+
+    COLORREF DividerColor(COLORREF color, bool dark_mode)
+    {
+        const BYTE target = dark_mode ? 95 : 185;
+        return RGB((GetRValue(color) + target) / 2, (GetGValue(color) + target) / 2, (GetBValue(color) + target) / 2);
     }
 }
 
@@ -89,12 +104,20 @@ int CMusicPlayer2LyricItem::GetItemWidthEx(void* hDC) const
     CDC* pDC = CDC::FromHandle((HDC)hDC);
     const CMusicPlayer2Lyric& plugin{ CMusicPlayer2Lyric::Instance() };
     const std::wstring lyric{ NormalizeText(plugin.GetCurrentLyric()) };
+    const std::wstring song_info{ JoinTitleArtist(NormalizeText(plugin.GetTitle()), NormalizeText(plugin.GetArtist())) };
     const std::vector<std::wstring> supplement_lines{ GetSupplementLines() };
     int width{ static_cast<int>(pDC->GetTextExtent(GetItemValueSampleText()).cx) };
     if (!lyric.empty())
         width = std::max(width, static_cast<int>(pDC->GetTextExtent(lyric.c_str()).cx));
-    for (const auto& line : supplement_lines)
-        width = std::max(width, static_cast<int>(pDC->GetTextExtent(line.c_str()).cx));
+    if (g_data.m_setting_data.show_song_info && !song_info.empty())
+        width = std::max(width, static_cast<int>(pDC->GetTextExtent(song_info.c_str()).cx + pDC->GetTextExtent(L"  |  ").cx));
+    if (g_data.m_setting_data.show_current_next && !plugin.GetNextLyric().empty())
+        width = std::max(width, static_cast<int>(pDC->GetTextExtent(plugin.GetNextLyric().c_str()).cx));
+    if (!g_data.m_setting_data.show_current_next)
+    {
+        for (const auto& line : supplement_lines)
+            width = std::max(width, static_cast<int>(pDC->GetTextExtent(line.c_str()).cx));
+    }
     width += g_data.DPI(8);
     return std::min(std::max(width, g_data.DPI(g_data.m_setting_data.min_item_width)), g_data.DPI(g_data.m_setting_data.max_item_width));
 }
@@ -105,10 +128,16 @@ void CMusicPlayer2LyricItem::DrawItem(void* hDC, int x, int y, int w, int h, boo
     CRect rect(CPoint(x, y), CSize(w, h));
     rect.DeflateRect(g_data.DPI(4), 0);
 
-    std::wstring lyric{ NormalizeText(CMusicPlayer2Lyric::Instance().GetCurrentLyric()) };
+    const CMusicPlayer2Lyric& plugin{ CMusicPlayer2Lyric::Instance() };
+    std::wstring lyric{ NormalizeText(plugin.GetCurrentLyric()) };
     std::vector<std::wstring> supplement_lines{ GetSupplementLines() };
     if (lyric.empty())
-        lyric = CMusicPlayer2Lyric::Instance().GetDisplayText();
+        lyric = plugin.GetDisplayText();
+
+    const std::wstring song_info{ JoinTitleArtist(NormalizeText(plugin.GetTitle()), NormalizeText(plugin.GetArtist())) };
+    std::wstring next_lyric{ NormalizeText(plugin.GetNextLyric()) };
+    if (next_lyric.empty())
+        next_lyric = NormalizeText(plugin.GetNextTranslate());
 
     const int old_bk_mode = pDC->SetBkMode(TRANSPARENT);
     const COLORREF old_text_color = pDC->GetTextColor();
@@ -129,19 +158,84 @@ void CMusicPlayer2LyricItem::DrawItem(void* hDC, int x, int y, int w, int h, boo
         supplement_font.CreateFontIndirect(&supplement_log_font);
     }
 
+    CRect content_rect{ rect };
+    if (g_data.m_setting_data.show_song_info && !song_info.empty() && rect.Width() >= g_data.DPI(180))
+    {
+        CFont* old_font = nullptr;
+        if (supplement_font.GetSafeHandle() != nullptr)
+            old_font = pDC->SelectObject(&supplement_font);
+
+        int info_width{ static_cast<int>(pDC->GetTextExtent(song_info.c_str()).cx) + g_data.DPI(14) };
+        info_width = std::min(info_width, std::max(g_data.DPI(72), rect.Width() / 3));
+        CRect info_rect{ rect };
+        info_rect.right = info_rect.left + info_width;
+        CRect divider_rect{ rect };
+        divider_rect.left = info_rect.right + g_data.DPI(4);
+        divider_rect.right = divider_rect.left + g_data.DPI(1);
+        content_rect.left = divider_rect.right + g_data.DPI(8);
+
+        CRect info_text_rect{ info_rect };
+        info_text_rect.DeflateRect(g_data.DPI(2), 0);
+        pDC->SetTextColor(SecondaryColor(text_color, dark_mode));
+        pDC->DrawText(song_info.c_str(), info_text_rect, text_flags | DT_VCENTER);
+        CPen divider_pen(PS_SOLID, g_data.DPI(1), DividerColor(text_color, dark_mode));
+        CPen* old_pen = pDC->SelectObject(&divider_pen);
+        const int divider_top{ rect.top + g_data.DPI(4) };
+        const int divider_bottom{ rect.bottom - g_data.DPI(4) };
+        pDC->MoveTo(divider_rect.left, divider_top);
+        pDC->LineTo(divider_rect.left, divider_bottom);
+        if (old_pen != nullptr)
+            pDC->SelectObject(old_pen);
+        if (old_font != nullptr)
+            pDC->SelectObject(old_font);
+    }
+
+    if (content_rect.Width() <= g_data.DPI(24))
+        content_rect = rect;
+
+    if (g_data.m_setting_data.show_current_next)
+    {
+        if (!next_lyric.empty() && h >= g_data.DPI(28))
+        {
+            CRect lyric_rect{ content_rect };
+            lyric_rect.bottom = content_rect.top + content_rect.Height() / 2;
+            CRect next_rect{ content_rect };
+            next_rect.top = lyric_rect.bottom;
+
+            pDC->SetTextColor(text_color);
+            pDC->DrawText(lyric.c_str(), lyric_rect, text_flags | DT_BOTTOM);
+            pDC->SetTextColor(SecondaryColor(text_color, dark_mode));
+            CFont* old_font = nullptr;
+            if (supplement_font.GetSafeHandle() != nullptr)
+                old_font = pDC->SelectObject(&supplement_font);
+            pDC->DrawText(next_lyric.c_str(), next_rect, text_flags | DT_TOP);
+            if (old_font != nullptr)
+                pDC->SelectObject(old_font);
+        }
+        else
+        {
+            pDC->SetTextColor(text_color);
+            pDC->DrawText(lyric.c_str(), content_rect, text_flags | DT_VCENTER);
+        }
+
+        pDC->SetTextColor(old_text_color);
+        pDC->SetBkMode(old_bk_mode);
+        return;
+    }
+
     const bool draw_three_lines{ g_data.m_setting_data.max_display_lines >= 3
         && supplement_lines.size() >= 2
         && (g_data.m_setting_data.force_three_lines || h >= g_data.DPI(38)) };
 
     if (draw_three_lines)
     {
-        const int line_height{ rect.Height() / 3 };
-        CRect lyric_rect{ rect };
-        lyric_rect.bottom = rect.top + line_height;
-        CRect second_rect{ rect };
+        const int line_height{ content_rect.Height() / 3 };
+        CRect lyric_rect{ content_rect };
+        lyric_rect.bottom = content_rect.top + line_height;
+        CRect second_rect{ content_rect };
         second_rect.top = lyric_rect.bottom;
         second_rect.bottom = second_rect.top + line_height;
-        CRect third_rect{ rect };
+        CRect third_rect{ content_rect };
         third_rect.top = second_rect.bottom;
 
         CFont* old_font = nullptr;
@@ -165,9 +259,9 @@ void CMusicPlayer2LyricItem::DrawItem(void* hDC, int x, int y, int w, int h, boo
     }
     else if (g_data.m_setting_data.max_display_lines >= 2 && !supplement_lines.empty() && h >= g_data.DPI(28))
     {
-        CRect lyric_rect{ rect };
-        lyric_rect.bottom = rect.top + rect.Height() / 2;
-        CRect translate_rect{ rect };
+        CRect lyric_rect{ content_rect };
+        lyric_rect.bottom = content_rect.top + content_rect.Height() / 2;
+        CRect translate_rect{ content_rect };
         translate_rect.top = lyric_rect.bottom;
         std::wstring translate{ supplement_lines[0] };
         for (size_t i{ 1 }; i < supplement_lines.size(); ++i)
@@ -194,7 +288,7 @@ void CMusicPlayer2LyricItem::DrawItem(void* hDC, int x, int y, int w, int h, boo
             lyric += line;
         }
         pDC->SetTextColor(text_color);
-        pDC->DrawText(lyric.c_str(), rect, text_flags | DT_VCENTER);
+        pDC->DrawText(lyric.c_str(), content_rect, text_flags | DT_VCENTER);
     }
 
     pDC->SetTextColor(old_text_color);

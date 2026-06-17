@@ -73,6 +73,8 @@ TrafficMonitorPlugins.sln
 [config]
 max_display_lines=3
 force_three_lines=0
+show_song_info=1
+show_current_next=0
 primary_font_percent=90
 supplement_font_percent=80
 min_item_width=120
@@ -88,6 +90,12 @@ max_item_width=360
   - `0`：根据任务栏高度自动降级为 2 行或 1 行。
   - `1`：只要当前歌词有两条补充行，就强制三行显示。
   - 如果任务栏高度太小，文字会更挤，依靠省略号截断。
+- `show_song_info`
+  - `0`：只显示歌词区域。
+  - `1`：左侧显示“曲名/歌手”信息区，并用分隔线和歌词区域区分。
+- `show_current_next`
+  - `0`：按多行歌词设置显示当前歌词、翻译、罗马音或其他并列行。
+  - `1`：只显示“当前歌词 + 下一句歌词”，强制不显示翻译、罗马音或其他并列行。
 - `primary_font_percent`
   - 三行显示时第 1 行字号比例，范围 `50` 到 `100`。
 - `supplement_font_percent`
@@ -103,6 +111,8 @@ max_item_width=360
 [config]
 max_display_lines=3
 force_three_lines=1
+show_song_info=1
+show_current_next=0
 primary_font_percent=90
 supplement_font_percent=70
 min_item_width=160

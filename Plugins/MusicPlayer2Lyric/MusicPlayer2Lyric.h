@@ -22,8 +22,12 @@ public:
     virtual void OnExtenedInfo(ExtendedInfoIndex index, const wchar_t* data) override;
 
     const std::wstring& GetDisplayText() const { return m_display_text; }
+    const std::wstring& GetTitle() const { return m_title; }
+    const std::wstring& GetArtist() const { return m_artist; }
     const std::wstring& GetCurrentLyric() const { return m_current_lyric; }
     const std::wstring& GetCurrentTranslate() const { return m_current_translate; }
+    const std::wstring& GetNextLyric() const { return m_next_lyric; }
+    const std::wstring& GetNextTranslate() const { return m_next_translate; }
     const std::vector<std::wstring>& GetCurrentParallelLines() const { return m_current_parallel_lines; }
 
 private:
@@ -32,8 +36,12 @@ private:
     CMp2LyricIpcReader m_reader;
     DWORD m_last_sequence{};
     std::wstring m_display_text;
+    std::wstring m_title;
+    std::wstring m_artist;
     std::wstring m_current_lyric;
     std::wstring m_current_translate;
+    std::wstring m_next_lyric;
+    std::wstring m_next_translate;
     std::vector<std::wstring> m_current_parallel_lines;
     std::vector<std::wstring> m_next_parallel_lines;
     std::wstring m_tooltip_info;

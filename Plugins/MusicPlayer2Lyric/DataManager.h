@@ -10,6 +10,8 @@ struct SettingData
 {
     int max_display_lines{ 3 };
     bool force_three_lines{ false };
+    bool show_song_info{ true };
+    bool show_current_next{ false };
     int primary_font_percent{ 90 };
     int supplement_font_percent{ 80 };
     int min_item_width{ 120 };

@@ -158,10 +158,6 @@ void CMusicPlayer2LyricItem::DrawItem(void* hDC, int x, int y, int w, int h, boo
     CRect content_rect{ rect };
     if (g_data.m_setting_data.show_song_info && (!title.empty() || !artist.empty()) && rect.Width() >= g_data.DPI(180))
     {
-        CFont* old_font = nullptr;
-        if (supplement_font.GetSafeHandle() != nullptr)
-            old_font = pDC->SelectObject(&supplement_font);
-
         int info_width{ std::max(static_cast<int>(pDC->GetTextExtent(title.c_str()).cx),
             static_cast<int>(pDC->GetTextExtent(artist.c_str()).cx)) + g_data.DPI(14) };
         info_width = std::min(info_width, std::max(g_data.DPI(96), rect.Width() * 2 / 5));
@@ -184,7 +180,12 @@ void CMusicPlayer2LyricItem::DrawItem(void* hDC, int x, int y, int w, int h, boo
             pDC->SetTextColor(text_color);
             pDC->DrawText(title.c_str(), title_rect, text_flags | DT_BOTTOM);
             pDC->SetTextColor(SecondaryColor(text_color, dark_mode));
+            CFont* old_font = nullptr;
+            if (supplement_font.GetSafeHandle() != nullptr)
+                old_font = pDC->SelectObject(&supplement_font);
             pDC->DrawText(artist.c_str(), artist_rect, text_flags | DT_TOP);
+            if (old_font != nullptr)
+                pDC->SelectObject(old_font);
         }
         else
         {
@@ -199,8 +200,6 @@ void CMusicPlayer2LyricItem::DrawItem(void* hDC, int x, int y, int w, int h, boo
         pDC->LineTo(divider_rect.left, divider_bottom);
         if (old_pen != nullptr)
             pDC->SelectObject(old_pen);
-        if (old_font != nullptr)
-            pDC->SelectObject(old_font);
     }
 
     if (content_rect.Width() <= g_data.DPI(24))

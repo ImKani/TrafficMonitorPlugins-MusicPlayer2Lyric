@@ -188,7 +188,7 @@ const wchar_t* CMusicPlayer2Lyric::GetInfo(PluginInfoIndex index)
     case ITMPlugin::TMI_URL:
         return L"https://github.com/ImKani/TrafficMonitorPlugins-MusicPlayer2Lyric";
     case TMI_VERSION:
-        return L"1.00";
+        return L"1.1.0";
     default:
         break;
     }

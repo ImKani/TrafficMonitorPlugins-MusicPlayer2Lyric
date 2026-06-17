@@ -178,19 +178,19 @@ void CMusicPlayer2LyricItem::DrawItem(void* hDC, int x, int y, int w, int h, boo
             CRect artist_rect{ info_text_rect };
             artist_rect.top = title_rect.bottom;
             pDC->SetTextColor(text_color);
-            pDC->DrawText(title.c_str(), title_rect, text_flags | DT_BOTTOM);
+            pDC->DrawText(title.c_str(), title_rect, text_flags | DT_RIGHT | DT_BOTTOM);
             pDC->SetTextColor(SecondaryColor(text_color, dark_mode));
             CFont* old_font = nullptr;
             if (supplement_font.GetSafeHandle() != nullptr)
                 old_font = pDC->SelectObject(&supplement_font);
-            pDC->DrawText(artist.c_str(), artist_rect, text_flags | DT_TOP);
+            pDC->DrawText(artist.c_str(), artist_rect, text_flags | DT_RIGHT | DT_TOP);
             if (old_font != nullptr)
                 pDC->SelectObject(old_font);
         }
         else
         {
             const std::wstring info_text{ !title.empty() ? title : artist };
-            pDC->DrawText(info_text.c_str(), info_text_rect, text_flags | DT_VCENTER);
+            pDC->DrawText(info_text.c_str(), info_text_rect, text_flags | DT_RIGHT | DT_VCENTER);
         }
         CPen divider_pen(PS_SOLID, g_data.DPI(1), DividerColor(text_color, dark_mode));
         CPen* old_pen = pDC->SelectObject(&divider_pen);

@@ -123,8 +123,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,0
- PRODUCTVERSION 1,0,0,0
+ FILEVERSION 1,1,0,0
+ PRODUCTVERSION 1,1,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -141,12 +141,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "ImKani"
             VALUE "FileDescription", "MusicPlayer2 Lyric Plugin for TrafficMonitor"
-            VALUE "FileVersion", "1.0.0.0"
+            VALUE "FileVersion", "1.1.0.0"
             VALUE "InternalName", "MusicPlayer2Lyric.dll"
             VALUE "LegalCopyright", "Copyright (C) 2026 by ImKani"
             VALUE "OriginalFilename", "MusicPlayer2Lyric.dll"
             VALUE "ProductName", "MusicPlayer2Lyric Plugin for TrafficMonitor"
-            VALUE "ProductVersion", "1.0.0.0"
+            VALUE "ProductVersion", "1.1.0.0"
         END
     END
     BLOCK "VarFileInfo"

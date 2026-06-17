@@ -124,7 +124,11 @@ void CMusicPlayer2LyricItem::DrawItem(void* hDC, int x, int y, int w, int h, boo
         small_font.CreateFontIndirect(&log_font);
     }
 
-    if (g_data.m_setting_data.max_display_lines >= 3 && supplement_lines.size() >= 2 && h >= g_data.DPI(38))
+    const bool draw_three_lines{ g_data.m_setting_data.max_display_lines >= 3
+        && supplement_lines.size() >= 2
+        && (g_data.m_setting_data.force_three_lines || h >= g_data.DPI(38)) };
+
+    if (draw_three_lines)
     {
         const int line_height{ rect.Height() / 3 };
         CRect lyric_rect{ rect };

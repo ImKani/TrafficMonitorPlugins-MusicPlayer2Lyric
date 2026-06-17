@@ -1,5 +1,11 @@
 # TrafficMonitorPlugins-MusicPlayer2Lyric
 
+> 这是 TrafficMonitor 的 `MusicPlayer2Lyric` 插件源码仓库，用于保存插件代码、构建工程和单独 DLL release。
+>
+> 普通下载和安装请优先前往整合发布仓库：`https://github.com/ImKani/MusicPlayer2TaskbarLyric`
+>
+> 本插件需要配合修改版 MusicPlayer2 使用，单独下载 DLL 不会让原版 MusicPlayer2 自动支持任务栏歌词。
+
 这是 `zhongyang219/TrafficMonitorPlugins` 的个人 fork，新增了一个 `MusicPlayer2Lyric` 插件，用于在 TrafficMonitor 任务栏窗口中显示 MusicPlayer2 当前歌词。
 
 这个插件不是独立播放器插件，它需要配合修改版 MusicPlayer2 使用：

@@ -87,6 +87,7 @@ max_display_lines=3
 force_three_lines=0
 show_song_info=1
 show_current_next=0
+parallel_lyric_line=0
 primary_font_percent=90
 supplement_font_percent=80
 min_item_width=120
@@ -108,6 +109,10 @@ max_item_width=360
 - `show_current_next`
   - `0`：按多行歌词设置显示当前歌词、翻译、罗马音或其他并列行。
   - `1`：只显示“当前歌词 + 下一句歌词”，强制不显示翻译、罗马音或其他并列行。
+- `parallel_lyric_line`
+  - 非强制三行时选择显示哪一条同时间戳并列歌词行。
+  - `0`：显示末行，适合“原文 / 罗马音 / 翻译”这类歌词，通常会显示翻译。
+  - `1` 到 `3`：显示指定副行。
 - `primary_font_percent`
   - 三行显示时第 1 行字号比例，范围 `50` 到 `100`。
 - `supplement_font_percent`
@@ -125,6 +130,7 @@ max_display_lines=3
 force_three_lines=1
 show_song_info=1
 show_current_next=0
+parallel_lyric_line=0
 primary_font_percent=90
 supplement_font_percent=70
 min_item_width=160

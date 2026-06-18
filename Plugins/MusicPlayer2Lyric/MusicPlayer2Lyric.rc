@@ -89,7 +89,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 231
         TOPMARGIN, 7
-        BOTTOMMARGIN, 174
+        BOTTOMMARGIN, 194
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -123,8 +123,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,1,0,0
- PRODUCTVERSION 1,1,0,0
+ FILEVERSION 1,1,1,0
+ PRODUCTVERSION 1,1,1,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -141,12 +141,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "ImKani"
             VALUE "FileDescription", "MusicPlayer2 Lyric Plugin for TrafficMonitor"
-            VALUE "FileVersion", "1.1.0.0"
+            VALUE "FileVersion", "1.1.1.0"
             VALUE "InternalName", "MusicPlayer2Lyric.dll"
             VALUE "LegalCopyright", "Copyright (C) 2026 by ImKani"
             VALUE "OriginalFilename", "MusicPlayer2Lyric.dll"
             VALUE "ProductName", "MusicPlayer2Lyric Plugin for TrafficMonitor"
-            VALUE "ProductVersion", "1.1.0.0"
+            VALUE "ProductVersion", "1.1.1.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -184,7 +184,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Dialog
 //
 
-IDD_OPTIONS_DIALOG DIALOGEX 0, 0, 268, 181
+IDD_OPTIONS_DIALOG DIALOGEX 0, 0, 268, 201
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "MusicPlayer2 Lyric settings"
 FONT 9, "Segoe UI", 400, 0, 0x0
@@ -198,18 +198,21 @@ BEGIN
     LTEXT           "1 - 3",IDC_STATIC,166,50,30,8
     CONTROL         "Force three-line display",IDC_FORCE_THREE_LINES_CHECK,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,68,120,10
-    LTEXT           "Primary font in 3 lines (%):",IDC_STATIC,8,90,108,8
-    EDITTEXT        IDC_PRIMARY_FONT_PERCENT_EDIT,124,87,36,14,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "50 - 100",IDC_STATIC,166,90,42,8
-    LTEXT           "Supplement font (%):",IDC_STATIC,8,112,80,8
-    EDITTEXT        IDC_SUPPLEMENT_FONT_PERCENT_EDIT,124,109,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Parallel lyric line:",IDC_STATIC,8,90,85,8
+    EDITTEXT        IDC_PARALLEL_LYRIC_LINE_EDIT,124,87,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "0 = last, 1 - 3 = line",IDC_STATIC,166,90,92,8
+    LTEXT           "Primary font in 3 lines (%):",IDC_STATIC,8,112,108,8
+    EDITTEXT        IDC_PRIMARY_FONT_PERCENT_EDIT,124,109,36,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "50 - 100",IDC_STATIC,166,112,42,8
-    LTEXT           "Min width:",IDC_STATIC,8,134,42,8
-    EDITTEXT        IDC_MIN_ITEM_WIDTH_EDIT,124,131,36,14,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "Max width:",IDC_STATIC,8,154,42,8
-    EDITTEXT        IDC_MAX_ITEM_WIDTH_EDIT,124,151,36,14,ES_AUTOHSCROLL | ES_NUMBER
-    DEFPUSHBUTTON   "OK",IDOK,154,160,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,211,160,50,14
+    LTEXT           "Supplement font (%):",IDC_STATIC,8,134,80,8
+    EDITTEXT        IDC_SUPPLEMENT_FONT_PERCENT_EDIT,124,131,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "50 - 100",IDC_STATIC,166,134,42,8
+    LTEXT           "Min width:",IDC_STATIC,8,156,42,8
+    EDITTEXT        IDC_MIN_ITEM_WIDTH_EDIT,124,153,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Max width:",IDC_STATIC,8,176,42,8
+    EDITTEXT        IDC_MAX_ITEM_WIDTH_EDIT,124,173,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    DEFPUSHBUTTON   "OK",IDOK,154,180,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,211,180,50,14
 END
 
 
@@ -226,7 +229,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 261
         TOPMARGIN, 7
-        BOTTOMMARGIN, 174
+        BOTTOMMARGIN, 194
     END
 END
 #endif    // APSTUDIO_INVOKED

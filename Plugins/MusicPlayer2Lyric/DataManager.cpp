@@ -40,6 +40,7 @@ void CDataManager::LoadConfig(const std::wstring& config_dir)
     m_setting_data.force_three_lines = (GetPrivateProfileInt(L"config", L"force_three_lines", 0, m_config_path.c_str()) != 0);
     m_setting_data.show_song_info = (GetPrivateProfileInt(L"config", L"show_song_info", 1, m_config_path.c_str()) != 0);
     m_setting_data.show_current_next = (GetPrivateProfileInt(L"config", L"show_current_next", 0, m_config_path.c_str()) != 0);
+    m_setting_data.parallel_lyric_line = ClampInt(GetPrivateProfileInt(L"config", L"parallel_lyric_line", 0, m_config_path.c_str()), -1, 3);
     m_setting_data.primary_font_percent = ClampInt(GetPrivateProfileInt(L"config", L"primary_font_percent", 90, m_config_path.c_str()), 50, 100);
     m_setting_data.supplement_font_percent = ClampInt(GetPrivateProfileInt(L"config", L"supplement_font_percent", 80, m_config_path.c_str()), 50, 100);
     m_setting_data.min_item_width = ClampInt(GetPrivateProfileInt(L"config", L"min_item_width", 120, m_config_path.c_str()), 40, 1000);
@@ -56,6 +57,7 @@ void CDataManager::SaveConfig() const
     WritePrivateProfileInt(L"config", L"force_three_lines", m_setting_data.force_three_lines ? 1 : 0, m_config_path.c_str());
     WritePrivateProfileInt(L"config", L"show_song_info", m_setting_data.show_song_info ? 1 : 0, m_config_path.c_str());
     WritePrivateProfileInt(L"config", L"show_current_next", m_setting_data.show_current_next ? 1 : 0, m_config_path.c_str());
+    WritePrivateProfileInt(L"config", L"parallel_lyric_line", m_setting_data.parallel_lyric_line, m_config_path.c_str());
     WritePrivateProfileInt(L"config", L"primary_font_percent", m_setting_data.primary_font_percent, m_config_path.c_str());
     WritePrivateProfileInt(L"config", L"supplement_font_percent", m_setting_data.supplement_font_percent, m_config_path.c_str());
     WritePrivateProfileInt(L"config", L"min_item_width", m_setting_data.min_item_width, m_config_path.c_str());

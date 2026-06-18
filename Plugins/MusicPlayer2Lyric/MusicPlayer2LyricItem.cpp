@@ -44,6 +44,20 @@ namespace
         return SplitSupplementText(plugin.GetCurrentTranslate());
     }
 
+    std::wstring SelectSupplementLine(const std::vector<std::wstring>& lines)
+    {
+        if (lines.empty())
+            return {};
+
+        int selected{};
+        if (g_data.m_setting_data.parallel_lyric_line <= 0)
+            selected = static_cast<int>(lines.size()) - 1;
+        else
+            selected = g_data.m_setting_data.parallel_lyric_line - 1;
+        selected = std::min(std::max(selected, 0), static_cast<int>(lines.size()) - 1);
+        return lines[selected];
+    }
+
     COLORREF SecondaryColor(COLORREF color, bool dark_mode)
     {
         const BYTE r = GetRValue(color);
@@ -111,8 +125,17 @@ int CMusicPlayer2LyricItem::GetItemWidthEx(void* hDC) const
         width = std::max(width, static_cast<int>(pDC->GetTextExtent(plugin.GetNextLyric().c_str()).cx));
     if (!g_data.m_setting_data.show_current_next)
     {
-        for (const auto& line : supplement_lines)
-            width = std::max(width, static_cast<int>(pDC->GetTextExtent(line.c_str()).cx));
+        if (g_data.m_setting_data.max_display_lines >= 3 && supplement_lines.size() >= 2)
+        {
+            for (const auto& line : supplement_lines)
+                width = std::max(width, static_cast<int>(pDC->GetTextExtent(line.c_str()).cx));
+        }
+        else
+        {
+            const std::wstring supplement_line{ SelectSupplementLine(supplement_lines) };
+            if (!supplement_line.empty())
+                width = std::max(width, static_cast<int>(pDC->GetTextExtent(supplement_line.c_str()).cx));
+        }
     }
     width += g_data.DPI(8);
     return std::min(std::max(width, g_data.DPI(g_data.m_setting_data.min_item_width)), g_data.DPI(g_data.m_setting_data.max_item_width));
@@ -275,12 +298,7 @@ void CMusicPlayer2LyricItem::DrawItem(void* hDC, int x, int y, int w, int h, boo
         lyric_rect.bottom = content_rect.top + content_rect.Height() / 2;
         CRect translate_rect{ content_rect };
         translate_rect.top = lyric_rect.bottom;
-        std::wstring translate{ supplement_lines[0] };
-        for (size_t i{ 1 }; i < supplement_lines.size(); ++i)
-        {
-            translate += L" / ";
-            translate += supplement_lines[i];
-        }
+        std::wstring translate{ SelectSupplementLine(supplement_lines) };
 
         pDC->SetTextColor(text_color);
         pDC->DrawText(lyric.c_str(), lyric_rect, text_flags | DT_BOTTOM);
@@ -294,10 +312,11 @@ void CMusicPlayer2LyricItem::DrawItem(void* hDC, int x, int y, int w, int h, boo
     }
     else
     {
-        for (const auto& line : supplement_lines)
+        const std::wstring supplement_line{ SelectSupplementLine(supplement_lines) };
+        if (!supplement_line.empty())
         {
             lyric += L" / ";
-            lyric += line;
+            lyric += supplement_line;
         }
         pDC->SetTextColor(text_color);
         pDC->DrawText(lyric.c_str(), content_rect, text_flags | DT_VCENTER);

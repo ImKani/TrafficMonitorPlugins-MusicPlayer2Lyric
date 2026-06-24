@@ -50,7 +50,7 @@ END
 // Dialog
 //
 
-IDD_OPTIONS_DIALOG DIALOGEX 0, 0, 238, 181
+IDD_OPTIONS_DIALOG DIALOGEX 0, 0, 238, 201
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "MusicPlayer2 歌词设置"
 FONT 9, "微软雅黑", 400, 0, 0x0
@@ -61,18 +61,21 @@ BEGIN
     EDITTEXT        IDC_MAX_DISPLAY_LINES_EDIT,100,47,36,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "1 - 3",IDC_STATIC,142,50,30,8
     CONTROL         "强制三行显示",IDC_FORCE_THREE_LINES_CHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,68,96,10
-    LTEXT           "三行时首行字号(%):",IDC_STATIC,8,90,75,8
-    EDITTEXT        IDC_PRIMARY_FONT_PERCENT_EDIT,100,87,36,14,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "50 - 100",IDC_STATIC,142,90,39,8
-    LTEXT           "补充行字号(%):",IDC_STATIC,8,112,67,8
-    EDITTEXT        IDC_SUPPLEMENT_FONT_PERCENT_EDIT,100,109,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "并列歌词行:",IDC_STATIC,8,90,58,8
+    EDITTEXT        IDC_PARALLEL_LYRIC_LINE_EDIT,100,87,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "0=末行, 1-3=指定行",IDC_STATIC,142,90,88,8
+    LTEXT           "三行时首行字号(%):",IDC_STATIC,8,112,75,8
+    EDITTEXT        IDC_PRIMARY_FONT_PERCENT_EDIT,100,109,36,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "50 - 100",IDC_STATIC,142,112,39,8
-    LTEXT           "最小宽度:",IDC_STATIC,8,134,42,8
-    EDITTEXT        IDC_MIN_ITEM_WIDTH_EDIT,100,131,36,14,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "最大宽度:",IDC_STATIC,8,154,42,8
-    EDITTEXT        IDC_MAX_ITEM_WIDTH_EDIT,100,151,36,14,ES_AUTOHSCROLL | ES_NUMBER
-    DEFPUSHBUTTON   "确定",IDOK,126,160,50,14
-    PUSHBUTTON      "取消",IDCANCEL,181,160,50,14
+    LTEXT           "补充行字号(%):",IDC_STATIC,8,134,67,8
+    EDITTEXT        IDC_SUPPLEMENT_FONT_PERCENT_EDIT,100,131,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "50 - 100",IDC_STATIC,142,134,39,8
+    LTEXT           "最小宽度:",IDC_STATIC,8,156,42,8
+    EDITTEXT        IDC_MIN_ITEM_WIDTH_EDIT,100,153,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "最大宽度:",IDC_STATIC,8,176,42,8
+    EDITTEXT        IDC_MAX_ITEM_WIDTH_EDIT,100,173,36,14,ES_AUTOHSCROLL | ES_NUMBER
+    DEFPUSHBUTTON   "确定",IDOK,126,180,50,14
+    PUSHBUTTON      "取消",IDCANCEL,181,180,50,14
 END
 
 
@@ -123,8 +126,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,1,1,0
- PRODUCTVERSION 1,1,1,0
+ FILEVERSION 1,1,2,0
+ PRODUCTVERSION 1,1,2,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -141,12 +144,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "ImKani"
             VALUE "FileDescription", "MusicPlayer2 Lyric Plugin for TrafficMonitor"
-            VALUE "FileVersion", "1.1.1.0"
+            VALUE "FileVersion", "1.1.2.0"
             VALUE "InternalName", "MusicPlayer2Lyric.dll"
             VALUE "LegalCopyright", "Copyright (C) 2026 by ImKani"
             VALUE "OriginalFilename", "MusicPlayer2Lyric.dll"
             VALUE "ProductName", "MusicPlayer2Lyric Plugin for TrafficMonitor"
-            VALUE "ProductVersion", "1.1.1.0"
+            VALUE "ProductVersion", "1.1.2.0"
         END
     END
     BLOCK "VarFileInfo"
